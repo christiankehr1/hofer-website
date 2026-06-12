@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Produkte — HOFER Landesprodukte</title>
+<meta name="description" content="Heu, Stroh, Luzerne, Einstreu, Düngemittel und Biogas-Substrate direkt vom Erzeuger — auf Wunsch in Bio-Qualität. Verfügbarkeit je Kategorie, Angebot auf Anfrage.">
+<link rel="icon" href="assets/mark.svg">
+<link rel="stylesheet" href="css/styles.css">
+<script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js" defer></script>
+<script src="js/data.js" defer></script>
+<script src="js/main.js" defer></script>
+</head>
+<body data-page="produkte">
+
+<div id="site-header"></div>
+
+<main class="container page-main">
+  <nav class="breadcrumbs" aria-label="Brotkrümelnavigation">
+    <ol>
+      <li><a href="index.html">Start</a><i data-lucide="chevron-right"></i></li>
+      <li><span aria-current="page">Produkte</span></li>
+    </ol>
+  </nav>
+
+  <div class="page-intro">
+    <span class="overline">Sortiment · 25+ Kategorien</span>
+    <h1>Produkte</h1>
+    <p class="lead">Landwirtschaftliche Erzeugnisse direkt vom Erzeuger — auf Wunsch in Bio-Qualität. Verfügbarkeit je Kategorie, Angebot auf Anfrage.</p>
+  </div>
+
+  <!-- Filter chips -->
+  <div class="chips" role="tablist" aria-label="Produktkategorien filtern">
+    <button class="chip is-active" role="tab" aria-selected="true" data-filter="alle">Alle</button>
+    <button class="chip" role="tab" aria-selected="false" data-filter="futter"><i data-lucide="wheat"></i>Futtermittel</button>
+    <button class="chip" role="tab" aria-selected="false" data-filter="einstreu"><i data-lucide="layers"></i>Einstreu</button>
+    <button class="chip" role="tab" aria-selected="false" data-filter="duenger"><i data-lucide="sprout"></i>Düngemittel</button>
+    <button class="chip" role="tab" aria-selected="false" data-filter="biogas"><i data-lucide="flame"></i>Biogas-Substrate</button>
+    <button class="chip" role="tab" aria-selected="false" data-filter="sonstiges"><i data-lucide="package"></i>Sonstiges</button>
+  </div>
+
+  <div class="product-grid" data-product-grid></div>
+</main>
+
+<div id="site-footer"></div>
+
+</body>
+</html>
