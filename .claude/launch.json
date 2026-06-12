@@ -6,6 +6,12 @@
       "runtimeExecutable": "python3",
       "runtimeArgs": ["-m", "http.server", "8742", "--directory", "/Users/christiankehr/hofer-website/site"],
       "port": 8742
+    },
+    {
+      "name": "portfolio",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["-m", "http.server", "8743", "--directory", "/Users/christiankehr/hofer-website/portfolio"],
+      "port": 8743
     }
   ]
 }
