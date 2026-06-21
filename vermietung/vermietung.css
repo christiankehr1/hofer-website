@@ -315,3 +315,87 @@ body.lb-open{overflow:hidden}
   .anfrage__grid{grid-template-columns:1fr;gap:44px}
   .form__row{grid-template-columns:1fr}
 }
+
+/* ============================================================
+   GRUNDRISSE — technische Zeichnungen (Halle · Dachboden · Lager)
+   Portiert aus dem Claude-Design-Handoff "Flaechen.dc.html",
+   farblich/typografisch ins Hofer-System übersetzt: Feldgrün-Ink,
+   Hanken Grotesk + IBM Plex Mono, warmes Papier statt #f3f3f1.
+   ============================================================ */
+.plans{background:var(--cream-deep)}
+.plans__lede{
+  font-family:var(--font-mono);font-size:13px;letter-spacing:.02em;line-height:1.7;
+  color:var(--ink-2);max-width:60ch;margin:clamp(-24px,-2vh,-12px) 0 clamp(36px,5vh,52px);
+}
+.plansheets{display:flex;flex-direction:column;gap:clamp(20px,3vw,30px)}
+.sheet{
+  background:var(--cream);border:1px solid var(--line);border-radius:14px;
+  padding:clamp(22px,2.4vw,32px) clamp(22px,2.6vw,34px) clamp(16px,2vw,22px);
+  transition:box-shadow .4s var(--ease),border-color .4s var(--ease);
+}
+.sheet:hover{box-shadow:0 22px 60px -34px rgba(31,36,33,.5);border-color:#d8d6cd}
+.sheet__head{
+  display:flex;justify-content:space-between;align-items:baseline;gap:24px;flex-wrap:wrap;
+  border-bottom:1px solid var(--line);padding-bottom:15px;margin-bottom:12px;
+}
+.sheet__title{display:flex;align-items:baseline;gap:16px}
+.sheet__n{font-family:var(--font-mono);font-size:13px;letter-spacing:.1em;color:var(--ink-3)}
+.sheet__name{font-family:var(--font-display);font-weight:600;font-size:clamp(20px,2.2vw,24px);letter-spacing:.01em;margin:0;color:var(--ink)}
+.sheet__floor{font-family:var(--font-mono);font-size:12px;text-transform:uppercase;letter-spacing:.16em;color:var(--ink-3)}
+.sheet__spec{font-family:var(--font-mono);font-size:12px;letter-spacing:.03em;color:var(--ink-2);text-align:right}
+.sheet__plan{display:flex;justify-content:center;width:100%;overflow:hidden}
+
+/* ---- die Zeichnung selbst ---- */
+@keyframes plDraw{to{stroke-dashoffset:0}}
+@keyframes plFade{from{opacity:0}to{opacity:1}}
+.dwg{--hover:rgba(217,164,65,.16)}
+.dwg .ln{fill:none;stroke-linecap:round;stroke-linejoin:round}
+.dwg .rmfill{transition:fill .45s var(--ease)}
+.dwg text{user-select:none}
+/* animierte Variante: Linien zeichnen sich nacheinander, Labels & Füllung blenden ein.
+   Standard pausiert (am Anfangs-Keyframe = unsichtbar); .play startet beim Scroll-in. */
+.dwg.anim .ln{
+  stroke-dasharray:1;stroke-dashoffset:1;
+  animation:plDraw 1.3s cubic-bezier(.62,.04,.12,1) forwards;animation-play-state:paused;
+}
+.dwg.anim .lbl{opacity:0;animation:plFade .9s ease .55s forwards;animation-play-state:paused}
+.dwg.anim .rmfill{opacity:0;animation:plFade 1s ease .7s forwards;animation-play-state:paused}
+.dwg.anim.play .ln,.dwg.anim.play .lbl,.dwg.anim.play .rmfill{animation-play-state:running}
+/* Hover über das Blatt: Raumfläche tönt sich, Wände werden kräftiger */
+.sheet:hover .dwg .rmfill{fill:var(--hover)}
+.sheet:hover .dwg .wall{stroke:#16150f}
+/* Textstile (Hofer-Schriften statt Space Grotesk / Space Mono) */
+.dwg .dimtext{font-family:var(--font-mono);font-size:12px;letter-spacing:.04em;text-anchor:middle;fill:var(--ink-3)}
+.dwg .gatelbl{font-family:var(--font-mono);font-size:11px;letter-spacing:.07em;text-anchor:middle;fill:var(--ink-3);text-transform:uppercase}
+.dwg .rmname{font-family:var(--font-display);font-weight:600;font-size:15px;letter-spacing:.22em;text-anchor:middle;fill:var(--ink)}
+.dwg .rmsub{font-family:var(--font-mono);font-size:12px;text-anchor:middle;fill:var(--ink-3)}
+.dwg .scaletxt{font-family:var(--font-mono);font-size:10px;letter-spacing:.04em;fill:var(--ink-3)}
+@media (prefers-reduced-motion:reduce){
+  .dwg.anim .ln,.dwg.anim .lbl,.dwg.anim .rmfill{animation:none;opacity:1;stroke-dashoffset:0}
+}
+@media (max-width:600px){
+  .sheet__spec{text-align:left;width:100%}
+}
+
+/* ---------------- Mobile-Feinschliff ---------------- */
+@media (max-width:760px){
+  /* Abschnittsabstände auf dem Handy deutlich kompakter (sonst klaffen
+     ~220px Leerraum zwischen den Sektionen). Hero behält eigenes Padding. */
+  main section{padding-top:clamp(46px,7.5vh,92px);padding-bottom:clamp(46px,7.5vh,92px)}
+
+  /* Technische Zeichnungen: NICHT auf Handybreite zerquetschen (Bemaßung
+     würde unleserlich). Stattdessen in Originalgröße lassen und das Blatt
+     horizontal scrollen. */
+  .sheet__plan{
+    justify-content:flex-start;
+    overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;
+    scrollbar-width:thin;scrollbar-color:var(--line) transparent;
+    padding-bottom:6px;
+  }
+  /* flex:0 0 auto verhindert, dass die Zeichnung im Flex-Container
+     auf Containerbreite zusammengestaucht wird */
+  .sheet__plan .dwg{max-width:none !important;flex:0 0 auto}
+  .sheet__plan::-webkit-scrollbar{height:5px}
+  .sheet__plan::-webkit-scrollbar-thumb{background:var(--line);border-radius:3px}
+  .plans__lede{margin-bottom:clamp(26px,4vh,40px)}
+}
