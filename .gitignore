@@ -1,1 +1,4 @@
 .DS_Store
+
+# Full-resolution camera originals (kept locally, not served/committed)
+vermietung/assets/**/_raw/
