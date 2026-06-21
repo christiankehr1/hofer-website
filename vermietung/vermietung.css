@@ -69,6 +69,16 @@
 /* Keep specs + tags in the content column on desktop (explicit
    placement avoids grid auto-flow dropping tags into the index column). */
 .project__info .project__tags{grid-column:2}
+/* Ungerade Kartenzahl (z. B. 5 Mietobjekte): die allein stehende letzte
+   Karte mittig setzen statt mit leerer rechter Spalte enden zu lassen.
+   Greift nur, wenn das letzte Kind an ungerader Position steht. */
+@media (min-width:761px){
+  .projects > .project:last-child:nth-child(odd){
+    grid-column:1 / -1;
+    width:calc(50% - clamp(10px,1.5vw,20px));
+    margin-inline:auto;
+  }
+}
 @media (max-width:760px){
   .project__info{grid-template-columns:1fr}
   .project__n{display:none}
@@ -327,7 +337,11 @@ body.lb-open{overflow:hidden}
   font-family:var(--font-mono);font-size:13px;letter-spacing:.02em;line-height:1.7;
   color:var(--ink-2);max-width:60ch;margin:clamp(-24px,-2vh,-12px) 0 clamp(36px,5vh,52px);
 }
-.plansheets{display:flex;flex-direction:column;gap:clamp(20px,3vw,30px)}
+.plansheets{
+  display:grid;grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:clamp(20px,2.4vw,30px);align-items:start;
+}
+@media (max-width:760px){.plansheets{grid-template-columns:1fr}}
 .sheet{
   background:var(--cream);border:1px solid var(--line);border-radius:14px;
   padding:clamp(22px,2.4vw,32px) clamp(22px,2.6vw,34px) clamp(16px,2vw,22px);
