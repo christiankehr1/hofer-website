@@ -24,6 +24,7 @@
   <nav class="nav__links">
     <a href="#objekte" data-cursor="link">Mietobjekte</a>
     <a href="#areal" data-cursor="link">Areal</a>
+    <a href="#grundrisse" data-cursor="link">Grundrisse</a>
     <a href="#ausstattung" data-cursor="link">Ausstattung</a>
     <a href="#location" data-cursor="link">Location</a>
     <a href="#anfrage" data-cursor="link">Anfrage</a>
@@ -41,9 +42,10 @@
   <nav class="menu__links" aria-label="Mobile Navigation">
     <a href="#objekte"><i>01</i>Mietobjekte</a>
     <a href="#areal"><i>02</i>Areal</a>
-    <a href="#ausstattung"><i>03</i>Ausstattung</a>
-    <a href="#location"><i>04</i>Location</a>
-    <a href="#anfrage"><i>05</i>Anfrage</a>
+    <a href="#grundrisse"><i>03</i>Grundrisse</a>
+    <a href="#ausstattung"><i>04</i>Ausstattung</a>
+    <a href="#location"><i>05</i>Location</a>
+    <a href="#anfrage"><i>06</i>Anfrage</a>
   </nav>
   <div class="menu__meta">
     <a href="tel:+43557784740">+43 5577 84 740</a>
@@ -236,10 +238,57 @@
     </div>
   </section>
 
+  <!-- ============ GRUNDRISSE ============ -->
+  <section class="plans" id="grundrisse">
+    <div class="section-head">
+      <span class="section-head__label" data-reveal>03 — Grundrisse</span>
+      <h2 class="section-head__title" data-reveal>Maßstäblich<br/>gezeichnet.</h2>
+    </div>
+    <p class="plans__lede" data-reveal>Drei zusammenhängende Flächen über die Geschosse — technisch und maßstäblich gezeichnet (M ≈ 1 : 200).</p>
+
+    <div class="plansheets">
+      <article class="sheet" data-reveal>
+        <div class="sheet__head">
+          <div class="sheet__title">
+            <span class="sheet__n">01</span>
+            <h3 class="sheet__name">Halle</h3>
+            <span class="sheet__floor">Erdgeschoss</span>
+          </div>
+          <span class="sheet__spec">≈ 44 × 6 m · 3 × Tor 5 m</span>
+        </div>
+        <div class="sheet__plan" data-plan="hall"></div>
+      </article>
+
+      <article class="sheet" data-reveal>
+        <div class="sheet__head">
+          <div class="sheet__title">
+            <span class="sheet__n">02</span>
+            <h3 class="sheet__name">Dachboden</h3>
+            <span class="sheet__floor">Obergeschoss</span>
+          </div>
+          <span class="sheet__spec">34 × 10 m · 1 × Tor</span>
+        </div>
+        <div class="sheet__plan" data-plan="dach"></div>
+      </article>
+
+      <article class="sheet" data-reveal>
+        <div class="sheet__head">
+          <div class="sheet__title">
+            <span class="sheet__n">03</span>
+            <h3 class="sheet__name">Lager</h3>
+            <span class="sheet__floor">Untergeschoss</span>
+          </div>
+          <span class="sheet__spec">12 × 9,5 m · 1 × Tür</span>
+        </div>
+        <div class="sheet__plan" data-plan="lager"></div>
+      </article>
+    </div>
+  </section>
+
   <!-- ============ AUSSTATTUNG ============ -->
   <section class="services" id="ausstattung">
     <div class="section-head">
-      <span class="section-head__label" data-reveal>03 — Ausstattung</span>
+      <span class="section-head__label" data-reveal>04 — Ausstattung</span>
       <h2 class="section-head__title" data-reveal>Alles dran,<br/>was zählt.</h2>
     </div>
     <ul class="svc">
@@ -269,7 +318,7 @@
   <!-- ============ LOCATION ============ -->
   <section class="location" id="location">
     <div class="section-head">
-      <span class="section-head__label" data-reveal>04 — Location</span>
+      <span class="section-head__label" data-reveal>05 — Location</span>
       <h2 class="section-head__title" data-reveal>So finden<br/>Sie uns.</h2>
     </div>
     <div class="map" data-reveal>
@@ -289,7 +338,7 @@
 
   <!-- ============ ANFRAGE ============ -->
   <section class="anfrage" id="anfrage" data-nav-dark>
-    <span class="section-head__label" data-reveal>05 — Anfrage</span>
+    <span class="section-head__label" data-reveal>06 — Anfrage</span>
     <h2 class="contact__title">
       <span class="hero__line"><span class="split" data-split>PLATZ</span></span>
       <span class="hero__line"><span class="split split--outline" data-split>SICHERN</span></span>
@@ -536,6 +585,158 @@
       if (ok) ok.classList.add('is-on');
       form.querySelector('.form__submit').textContent = 'Gesendet ✓';
     });
+  }
+})();
+
+/* ====== Grundrisse: technische Zeichnungen (aus Flaechen.dc.html portiert) ======
+   Maßstäbliche SVG-Grundrisse mit Bemaßung, Raster, Maßstabsbalken; Technical-Stil.
+   Linien zeichnen sich beim Scroll-in nacheinander, Labels & Füllung blenden ein. */
+(function () {
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var S = 18;             // px pro Meter
+  var ink = '#1f2421';    // Hofer-Ink
+  var dimCol = '#837b6d'; // warmes Grau für Bemaßung
+  var wallW = 1.7, partW = 1.2, fill = 'none'; // Technical-Stil
+  var T = 5;
+  var di = 0;
+  function A() { return 'pathLength="1" vector-effect="non-scaling-stroke" style="animation-delay:' + (di++ * 0.05).toFixed(2) + 's"'; }
+  function L(x1, y1, x2, y2, w, cls, col) {
+    return '<line class="ln ' + (cls || '') + '" ' + A() + ' x1="' + x1 + '" y1="' + y1 + '" x2="' + x2 + '" y2="' + y2 + '" stroke="' + (col || ink) + '" stroke-width="' + w + '"/>';
+  }
+  function P(d, w, cls, col) {
+    return '<path class="ln ' + (cls || '') + '" ' + A() + ' d="' + d + '" fill="none" stroke="' + (col || ink) + '" stroke-width="' + w + '"/>';
+  }
+  function dimH(x1, x2, y, label) {
+    return L(x1, y, x2, y, 1, '', dimCol)
+      + P('M' + (x1 - T) + ' ' + (y + T) + ' L' + (x1 + T) + ' ' + (y - T), 1, '', dimCol)
+      + P('M' + (x2 - T) + ' ' + (y + T) + ' L' + (x2 + T) + ' ' + (y - T), 1, '', dimCol)
+      + '<text class="lbl dimtext" x="' + ((x1 + x2) / 2) + '" y="' + (y - 7) + '">' + label + '</text>';
+  }
+  function dimV(x, y1, y2, label) {
+    return L(x, y1, x, y2, 1, '', dimCol)
+      + P('M' + (x - T) + ' ' + (y1 + T) + ' L' + (x + T) + ' ' + (y1 - T), 1, '', dimCol)
+      + P('M' + (x - T) + ' ' + (y2 + T) + ' L' + (x + T) + ' ' + (y2 - T), 1, '', dimCol)
+      + '<text class="lbl dimtext" x="' + (x - 7) + '" y="' + ((y1 + y2) / 2) + '" transform="rotate(-90 ' + (x - 7) + ' ' + ((y1 + y2) / 2) + ')">' + label + '</text>';
+  }
+  function room(cx, cy, name, sub) {
+    return '<text class="lbl rmname" x="' + cx + '" y="' + cy + '">' + name + '</text>'
+      + (sub ? '<text class="lbl rmsub" x="' + cx + '" y="' + (cy + 21) + '">' + sub + '</text>' : '');
+  }
+  function scaleBar(x, y) {
+    var u = 5 * S;
+    return '<g class="lbl">'
+      + '<rect x="' + x + '" y="' + y + '" width="' + u + '" height="5" fill="' + ink + '"/>'
+      + '<rect x="' + x + '" y="' + y + '" width="' + (2 * u) + '" height="5" fill="none" stroke="' + ink + '" stroke-width="1"/>'
+      + '<line x1="' + (x + u) + '" y1="' + y + '" x2="' + (x + u) + '" y2="' + (y + 5) + '" stroke="' + ink + '" stroke-width="1"/>'
+      + '<text class="scaletxt" x="' + x + '" y="' + (y + 15) + '">0</text>'
+      + '<text class="scaletxt" x="' + (x + u - 3) + '" y="' + (y + 15) + '">5</text>'
+      + '<text class="scaletxt" x="' + (x + 2 * u - 14) + '" y="' + (y + 15) + '">10 m</text>'
+      + '</g>';
+  }
+  function defs(k) {
+    return '<defs><pattern id="grid' + k + '" width="' + S + '" height="' + S + '" patternUnits="userSpaceOnUse">'
+      + '<path d="M' + S + ' 0 L0 0 0 ' + S + '" fill="none" stroke="#e6e2d8" stroke-width="1"/></pattern></defs>';
+  }
+  function wrap(inner, w, h, k) {
+    return '<svg class="dwg' + (reduce ? '' : ' anim') + '" viewBox="0 0 ' + w + ' ' + h + '" '
+      + 'style="width:' + w + 'px;max-width:100%;height:auto;display:block;overflow:visible" xmlns="http://www.w3.org/2000/svg">'
+      + defs(k) + inner + '</svg>';
+  }
+
+  function buildHall() {
+    di = 0; var k = 'h';
+    var x0 = 46, y0 = 46, W = 44 * S, H = 6 * S, xR = x0 + W, yB = y0 + H;
+    var parts = [11, 22, 33].map(function (v) { return x0 + v * S; });
+    var gates = [[3, 8], [14, 19], [25, 30]].map(function (p) { return [x0 + p[0] * S, x0 + p[1] * S]; });
+    var segs = [[x0, gates[0][0]], [gates[0][1], gates[1][0]], [gates[1][1], gates[2][0]], [gates[2][1], xR]];
+    var out = [];
+    out.push('<rect x="' + x0 + '" y="' + y0 + '" width="' + W + '" height="' + H + '" fill="url(#grid' + k + ')"/>');
+    out.push('<rect class="rmfill" x="' + x0 + '" y="' + y0 + '" width="' + W + '" height="' + H + '" fill="' + fill + '"/>');
+    var g = '';
+    g += L(x0, y0, xR, y0, wallW, 'wall');
+    g += L(x0, y0, x0, yB, wallW, 'wall');
+    g += L(xR, y0, xR, yB, wallW, 'wall');
+    segs.forEach(function (s) { g += L(s[0], yB, s[1], yB, wallW, 'wall'); });
+    parts.forEach(function (px) { g += L(px, y0, px, yB, partW, ''); });
+    gates.forEach(function (ga) { g += L(ga[0], yB - 8, ga[0], yB + 8, 1.5) + L(ga[1], yB - 8, ga[1], yB + 8, 1.5) + L(ga[0], yB, ga[1], yB, 1.2); });
+    out.push('<g>' + g + '</g>');
+    out.push(dimH(x0, parts[0], y0 - 20, '11 m'));
+    out.push(dimH(parts[0], parts[1], y0 - 20, '11 m'));
+    out.push(dimH(parts[1], parts[2], y0 - 20, '11 m'));
+    out.push(dimV(x0 - 22, y0, yB, '6 m'));
+    gates.forEach(function (ga) { out.push('<text class="lbl gatelbl" x="' + ((ga[0] + ga[1]) / 2) + '" y="' + (yB + 23) + '">Tor · 5 m</text>'); });
+    out.push(room(x0 + 22 * S, y0 + H / 2 - 1, 'HALLE', '≈ 150 m² je Einheit'));
+    out.push(scaleBar(xR - 10 * S, yB + 40));
+    return wrap(out.join(''), xR + 46, yB + 76, k);
+  }
+
+  function buildDach() {
+    di = 0; var k = 'd';
+    var x0 = 46, y0 = 46, W = 34 * S, H = 10 * S, xR = x0 + W, yB = y0 + H;
+    var ga = y0 + 3.5 * S, gb = y0 + 6.5 * S;
+    var out = [];
+    out.push('<rect x="' + x0 + '" y="' + y0 + '" width="' + W + '" height="' + H + '" fill="url(#grid' + k + ')"/>');
+    out.push('<rect class="rmfill" x="' + x0 + '" y="' + y0 + '" width="' + W + '" height="' + H + '" fill="' + fill + '"/>');
+    var g = '';
+    g += L(x0, y0, xR, y0, wallW, 'wall');
+    g += L(x0, y0, x0, yB, wallW, 'wall');
+    g += L(x0, yB, xR, yB, wallW, 'wall');
+    g += L(xR, y0, xR, ga, wallW, 'wall');
+    g += L(xR, gb, xR, yB, wallW, 'wall');
+    g += L(xR - 8, ga, xR + 8, ga, 1.5) + L(xR - 8, gb, xR + 8, gb, 1.5) + L(xR, ga, xR, gb, 1.2);
+    out.push('<g>' + g + '</g>');
+    out.push(dimH(x0, xR, y0 - 20, '34 m'));
+    out.push(dimV(x0 - 22, y0, yB, '10 m'));
+    out.push('<text class="lbl gatelbl" x="' + (xR + 16) + '" y="' + ((ga + gb) / 2 + 4) + '" style="text-anchor:start">Tor</text>');
+    out.push(room(x0 + W / 2, y0 + H / 2 - 1, 'DACHBODEN', ''));
+    out.push(scaleBar(xR - 10 * S, yB + 40));
+    return wrap(out.join(''), xR + 62, yB + 76, k);
+  }
+
+  function buildLager() {
+    di = 0; var k = 'l';
+    var x0 = 46, y0 = 46, xR = x0 + 12 * S, yB = y0 + 9.5 * S;
+    var ax = x0 + 3 * S, ey = y0 + 2.5 * S;
+    var d1 = y0 + 4.5 * S, d2 = y0 + 5.5 * S;
+    var out = [];
+    out.push('<rect x="' + x0 + '" y="' + y0 + '" width="' + (12 * S) + '" height="' + (9.5 * S) + '" fill="url(#grid' + k + ')"/>');
+    out.push('<path class="rmfill" d="M' + ax + ' ' + y0 + ' L' + xR + ' ' + y0 + ' L' + xR + ' ' + yB + ' L' + x0 + ' ' + yB + ' L' + x0 + ' ' + ey + ' Z" fill="' + fill + '"/>');
+    var g = '';
+    g += L(ax, y0, xR, y0, wallW, 'wall');
+    g += L(xR, y0, xR, yB, wallW, 'wall');
+    g += L(xR, yB, x0, yB, wallW, 'wall');
+    g += L(x0, ey, ax, y0, wallW, 'wall');
+    g += L(x0, ey, x0, d1, wallW, 'wall');
+    g += L(x0, d2, x0, yB, wallW, 'wall');
+    g += L(x0 - 8, d1, x0 + 8, d1, 1.5) + L(x0 - 8, d2, x0 + 8, d2, 1.5);
+    g += L(x0, d1, x0 + S, d1, 1.3);
+    g += P('M' + (x0 + S) + ' ' + d1 + ' A' + S + ' ' + S + ' 0 0 1 ' + x0 + ' ' + d2, 1.3);
+    out.push('<g>' + g + '</g>');
+    out.push(dimH(x0, xR, yB + 22, '12 m'));
+    out.push(dimV(xR + 20, y0, yB, '9,5 m'));
+    out.push(dimV(x0 - 22, d2, yB, '4 m'));
+    out.push(room(x0 + 6 * S, y0 + 5.3 * S, 'LAGER', ''));
+    out.push(scaleBar(x0, yB + 40));
+    return wrap(out.join(''), xR + 60, yB + 76, k);
+  }
+
+  var builders = { hall: buildHall, dach: buildDach, lager: buildLager };
+  Object.keys(builders).forEach(function (key) {
+    var el = document.querySelector('.sheet__plan[data-plan="' + key + '"]');
+    if (el) el.innerHTML = builders[key]();
+  });
+
+  // Zeichnung beim Scroll-in starten (.play hebt die Pause auf)
+  if (!reduce && 'IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (!e.isIntersecting) return;
+        var d = e.target.querySelector('.dwg');
+        if (d) d.classList.add('play');
+        io.unobserve(e.target);
+      });
+    }, { threshold: 0.25 });
+    document.querySelectorAll('.sheet__plan').forEach(function (el) { io.observe(el); });
   }
 })();
 </script>
