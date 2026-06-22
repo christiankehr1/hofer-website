@@ -397,6 +397,9 @@ body.lb-open{overflow:hidden}
    schwebend über dem Inhalt — so lässt er sich beim einhändigen Scrollen
    bequem öffnen. Das Logo bleibt oben links. Nur diese Seite. */
 @media (max-width:760px){
+  /* Frosted-Glass-Blur auf dem Handy dezenter (8px → 3px): klarer Look,
+     ruhiger beim Scrollen. Der Nav-Verlauf trägt weiterhin den Kontrast. */
+  .nav{-webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px)}
   .nav__burger{
     position:fixed;
     left:0;right:0;margin-inline:auto;  /* horizontal zentriert, ohne transform */
@@ -407,7 +410,7 @@ body.lb-open{overflow:hidden}
     background:var(--green-deep);color:var(--fg-1);
     border-color:rgba(250,248,244,.22);
     box-shadow:0 14px 34px -10px rgba(13,21,7,.7);
-    -webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);
+    -webkit-backdrop-filter:blur(3px);backdrop-filter:blur(3px);
     transition:transform .3s var(--ease),background .3s var(--ease),
                color .3s var(--ease),border-color .3s var(--ease);
   }
