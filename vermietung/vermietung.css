@@ -391,6 +391,34 @@ body.lb-open{overflow:hidden}
   .sheet__spec{text-align:left;width:100%}
 }
 
+/* ---------------- Mobiler Menü-Button: unten mittig ----------------
+   Auf dem Handy wandert der Menü-Button vom oberen rechten Rand (mit dem
+   Daumen schwer erreichbar) an den unteren Bildschirmrand, mittig und
+   schwebend über dem Inhalt — so lässt er sich beim einhändigen Scrollen
+   bequem öffnen. Das Logo bleibt oben links. Nur diese Seite. */
+@media (max-width:760px){
+  .nav__burger{
+    position:fixed;
+    left:0;right:0;margin-inline:auto;  /* horizontal zentriert, ohne transform */
+    bottom:18px;
+    bottom:calc(18px + env(safe-area-inset-bottom, 0px));
+    z-index:80;
+    width:56px;height:56px;
+    background:var(--green-deep);color:var(--fg-1);
+    border-color:rgba(250,248,244,.22);
+    box-shadow:0 14px 34px -10px rgba(13,21,7,.7);
+    -webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);
+    transition:transform .3s var(--ease),background .3s var(--ease),
+               color .3s var(--ease),border-color .3s var(--ease);
+  }
+  .nav__burger:active{transform:scale(.93)}
+  /* offen: bleibt über dem grünen Overlay sichtbar und wird zum Schließen-Button */
+  .nav__burger[aria-expanded="true"],
+  .nav--light .nav__burger[aria-expanded="true"]{
+    background:var(--gold);color:var(--green-deep);border-color:var(--gold);
+  }
+}
+
 /* ---------------- Mobile-Feinschliff ---------------- */
 @media (max-width:760px){
   /* Abschnittsabstände auf dem Handy deutlich kompakter (sonst klaffen

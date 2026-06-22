@@ -34,8 +34,12 @@
     <span class="nav__time" id="clock">—:—:—</span>
   </div>
   <a href="tel:+43557784740" class="nav__cta" data-cursor="link" data-magnetic>+43 5577 84 740</a>
-  <button class="nav__burger" id="burger" type="button" aria-label="Menü" aria-expanded="false" aria-controls="menu"><span></span><span></span></button>
 </header>
+
+<!-- Mobiler Menü-Button: außerhalb von <header>, damit position:fixed sich
+     auf den Viewport bezieht (die Nav hat backdrop-filter und wäre sonst der
+     Bezugsrahmen). Wird per CSS unten mittig platziert. -->
+<button class="nav__burger" id="burger" type="button" aria-label="Menü" aria-expanded="false" aria-controls="menu"><span></span><span></span></button>
 
 <!-- Mobile menu -->
 <div class="menu" id="menu" aria-hidden="true">
