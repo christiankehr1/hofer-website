@@ -400,6 +400,11 @@ body.lb-open{overflow:hidden}
   /* Technische Zeichnungen: NICHT auf Handybreite zerquetschen (Bemaßung
      würde unleserlich). Stattdessen in Originalgröße lassen und das Blatt
      horizontal scrollen. */
+  /* Grid-Item darf unter seine Inhaltsbreite schrumpfen (Standard ist
+     min-width:auto), sonst dehnt die ~884px breite Zeichnung die 1fr-Spalte
+     auf volle Zeichnungsbreite und schiebt die ganze Seite über den
+     Viewport hinaus → horizontaler Leerraum rechts. */
+  .sheet{min-width:0}
   .sheet__plan{
     justify-content:flex-start;
     overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch;
