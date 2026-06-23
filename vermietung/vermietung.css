@@ -44,8 +44,19 @@
 @media (max-width:760px){
   /* schmaler Screen: gleichmäßiger abdunkeln, Text bleibt lesbar */
   .hero__scrim{
-    background:linear-gradient(180deg, rgba(24,40,12,.66) 0%, rgba(24,40,12,.4) 40%, rgba(24,40,12,.92) 100%);
+    background:linear-gradient(180deg, rgba(24,40,12,.72) 0%, rgba(24,40,12,.62) 45%, rgba(24,40,12,.78) 70%, rgba(24,40,12,.95) 100%);
   }
+}
+
+/* Hero-Text klar vom Foto abheben: dezenter Schatten auf allen Größen */
+.hero__title,
+.hero__lede,
+.hero__badge,
+.hero__meta{
+  text-shadow:0 1px 14px rgba(12,22,6,.55);
+}
+.split--outline{
+  text-shadow:0 1px 14px rgba(12,22,6,.75);
 }
 
 /* ---------------- Mietobjekt-Karten: Eckdaten ----------------
@@ -406,7 +417,9 @@ body.lb-open{overflow:hidden}
     bottom:18px;
     bottom:calc(18px + env(safe-area-inset-bottom, 0px));
     z-index:80;
-    width:56px;height:56px;
+    /* Beschriftung "Menü" statt der zwei Striche → Pillenform statt Kreis */
+    width:max-content;height:auto;
+    padding:15px 26px;gap:0;
     background:var(--green-deep);color:var(--fg-1);
     border-color:rgba(250,248,244,.22);
     box-shadow:0 14px 34px -10px rgba(13,21,7,.7);
@@ -415,6 +428,17 @@ body.lb-open{overflow:hidden}
                color .3s var(--ease),border-color .3s var(--ease);
   }
   .nav__burger:active{transform:scale(.93)}
+  /* Textlabel: "Menü" geschlossen, "Schließen" wenn offen.
+     Überschreibt die geerbten Strich-Stile (.nav__burger span) der Basis-CSS. */
+  .nav__burger .nav__burger-txt{
+    width:auto;height:auto;background:none;
+    font-family:var(--font-mono);font-size:13px;line-height:1;
+    letter-spacing:.14em;text-transform:uppercase;
+    transform:none !important;  /* X-Rotation der Basis-Striche neutralisieren */
+  }
+  .nav__burger .nav__burger-txt--close{display:none}
+  .nav__burger[aria-expanded="true"] .nav__burger-txt--open{display:none}
+  .nav__burger[aria-expanded="true"] .nav__burger-txt--close{display:inline}
   /* offen: bleibt über dem grünen Overlay sichtbar und wird zum Schließen-Button */
   .nav__burger[aria-expanded="true"],
   .nav--light .nav__burger[aria-expanded="true"]{
